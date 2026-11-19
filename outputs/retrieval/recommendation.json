@@ -1,0 +1,116 @@
+{
+  "query": "勇气与友谊的森林冒险",
+  "template_ids": [
+    "template_01",
+    "template_03",
+    "template_02"
+  ],
+  "character_candidates": [],
+  "scene_candidates": [
+    "scene_01",
+    "scene_08"
+  ],
+  "image_ids": [
+    "scene_01",
+    "scene_02",
+    "scene_03"
+  ],
+  "sound_ids": [
+    "forest_night",
+    "magic_chime",
+    "water_ripple"
+  ],
+  "generation_hints": [
+    "主角在星空中寻找回家的路，主题勇气与友谊",
+    "主角为迷路的动物送信，主题善意与坚持",
+    "月光穿过树叶，银色小路通向邮局"
+  ],
+  "results": [
+    {
+      "score": 0.3706,
+      "id": "template_01",
+      "type": "template",
+      "text": "星空探险 主角在星空中寻找回家的路，主题勇气与友谊",
+      "payload": {
+        "id": 1,
+        "title": "星空探险",
+        "description": "主角在星空中寻找回家的路，主题勇气与友谊"
+      }
+    },
+    {
+      "score": 0.165,
+      "id": "template_03",
+      "type": "template",
+      "text": "森林邮局 主角为迷路的动物送信，主题善意与坚持",
+      "payload": {
+        "id": 3,
+        "title": "森林邮局",
+        "description": "主角为迷路的动物送信，主题善意与坚持"
+      }
+    },
+    {
+      "score": 0.1612,
+      "id": "scene_01",
+      "type": "scene",
+      "text": "月光森林 月光穿过树叶，银色小路通向邮局",
+      "payload": {
+        "name": "月光森林",
+        "description": "月光穿过树叶，银色小路通向邮局"
+      }
+    },
+    {
+      "score": 0.0891,
+      "id": "scene_08",
+      "type": "scene",
+      "text": "海底剧场 珊瑚搭成的舞台，气泡漂向海面",
+      "payload": {
+        "name": "海底剧场",
+        "description": "珊瑚搭成的舞台，气泡漂向海面"
+      }
+    },
+    {
+      "score": 0.0772,
+      "id": "template_02",
+      "type": "template",
+      "text": "海边灯塔 主角和朋友修复灯塔，主题责任与合作",
+      "payload": {
+        "id": 2,
+        "title": "海边灯塔",
+        "description": "主角和朋友修复灯塔，主题责任与合作"
+      }
+    },
+    {
+      "score": 0.0714,
+      "id": "template_07",
+      "type": "template",
+      "text": "彩虹火车 主角和伙伴找回彩虹车票，主题信任与勇敢",
+      "payload": {
+        "id": 7,
+        "title": "彩虹火车",
+        "description": "主角和伙伴找回彩虹车票，主题信任与勇敢"
+      }
+    },
+    {
+      "score": 0.0,
+      "id": "template_04",
+      "type": "template",
+      "text": "云端学校 主角帮助云朵同学完成一次实验，主题好奇与分享",
+      "payload": {
+        "id": 4,
+        "title": "云端学校",
+        "description": "主角帮助云朵同学完成一次实验，主题好奇与分享"
+      }
+    },
+    {
+      "score": 0.0,
+      "id": "template_05",
+      "type": "template",
+      "text": "时间花园 主角在花园里认识不同季节，主题成长与珍惜",
+      "payload": {
+        "id": 5,
+        "title": "时间花园",
+        "description": "主角在花园里认识不同季节，主题成长与珍惜"
+      }
+    }
+  ]
+}

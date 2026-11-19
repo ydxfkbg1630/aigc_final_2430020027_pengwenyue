@@ -1,0 +1,7 @@
+file 'F:/AIGC_彭文玥_2430020027/outputs/images/scene_01.png'
+duration 24
+file 'F:/AIGC_彭文玥_2430020027/outputs/images/scene_02.png'
+duration 24
+file 'F:/AIGC_彭文玥_2430020027/outputs/images/scene_03.png'
+duration 24
+file 'F:/AIGC_彭文玥_2430020027/outputs/images/scene_03.png'

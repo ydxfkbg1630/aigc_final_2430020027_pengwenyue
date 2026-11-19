@@ -1,0 +1,14 @@
+{
+  "required_missing": [],
+  "story_fields": true,
+  "story_characters": 3,
+  "story_scenes": 3,
+  "generated_images": 3,
+  "image_assets": 20,
+  "templates": 10,
+  "sounds": 5,
+  "name_leaks": [],
+  "zip_crc_ok": true,
+  "zip_members": 133,
+  "zip_sha256": "69ceed9e97c038f806435a48c0696a2676d3003740d934c7de472543dd971421"
+}
