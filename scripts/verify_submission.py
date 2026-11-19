@@ -18,7 +18,7 @@ def main():
     zip_path=ROOT/'AIGC_彭文玥_2430020027_提交包.zip'
     with zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED) as archive:
         for path in ROOT.rglob('*'):
-            if path.is_file() and path.name != zip_path.name and '.git' not in path.parts and '.venv' not in path.parts:
+            if path.is_file() and path.name != zip_path.name and path.name != '.env' and '.git' not in path.parts and '.venv' not in path.parts:
                 archive.write(path, path.relative_to(ROOT).as_posix())
     with zipfile.ZipFile(zip_path) as archive: crc=archive.testzip() is None; members=len(archive.namelist())
     report={'required_missing':missing,'story_fields':all(k in story for k in ['title','characters','scenes','moral']),'story_characters':len(story.get('characters',[])),'story_scenes':len(story.get('scenes',[])),'generated_images':len(images),'image_assets':len(image_assets),'templates':len(templates),'sounds':len(sounds),'name_leaks':leaks,'zip_crc_ok':crc,'zip_members':members,'zip_sha256':hashlib.sha256(zip_path.read_bytes()).hexdigest()}

@@ -1,5 +1,5 @@
 from __future__ import annotations
-import urllib.parse, urllib.request
+import io, time, urllib.parse, urllib.request
 from pathlib import Path
 from .base import ROOT, load_env, stable_seed
 
@@ -21,15 +21,21 @@ def generate_image(prompt: str, output_path: Path, seed: int | None = None, widt
     env=load_env(); seed=seed if seed is not None else stable_seed(prompt); use_remote=env.get('USE_REMOTE_IMAGES','0').lower() in {'1','true','yes'}
     if not use_remote: return _fallback_image(output_path,'故事星球',prompt,seed%3+1)
     base=env.get('POLLINATIONS_BASE_URL','https://image.pollinations.ai/prompt').rstrip('/'); encoded=urllib.parse.quote(prompt,safe=''); url=f'{base}/{encoded}?width={width}&height={height}&seed={seed}&nologo=true'
-    try:
-        request=urllib.request.Request(url,headers={'User-Agent':'AIGC-Story-Workshop/1.0'})
-        with urllib.request.urlopen(request,timeout=90) as response: payload=response.read()
-        if not (payload.startswith(b'\x89PNG') or payload.startswith(b'\xff\xd8')): raise ValueError('生图接口返回内容类型异常')
-        output_path.parent.mkdir(parents=True,exist_ok=True); output_path.write_bytes(payload); return output_path
-    except Exception: return _fallback_image(output_path,'故事星球',prompt,seed%3+1)
+    for attempt in range(4):
+        try:
+            request=urllib.request.Request(url,headers={'User-Agent':'AIGC-Story-Workshop/1.0'})
+            with urllib.request.urlopen(request,timeout=90) as response: payload=response.read()
+            if not (payload.startswith(b'\x89PNG') or payload.startswith(b'\xff\xd8')): raise ValueError('生图接口返回内容类型异常')
+            from PIL import Image
+            output_path.parent.mkdir(parents=True,exist_ok=True)
+            Image.open(io.BytesIO(payload)).convert('RGB').save(output_path, format='PNG')
+            return output_path
+        except Exception:
+            if attempt < 3: time.sleep(3)
+    return _fallback_image(output_path,'故事星球',prompt,seed%3+1)
 
 def generate_story_images(story: dict, output_dir: Path | None = None) -> list[Path]:
     output_dir=output_dir or ROOT/'outputs/images'; output_dir.mkdir(parents=True,exist_ok=True); anchor='同一角色锚点：10岁东亚女孩，黑色齐肩短发，黄色星星发夹，蓝色连帽外套，红色小背包；白色长耳朵云朵兔，橙色围巾；儿童绘本，柔和水彩，角色比例统一'; paths=[]
     for scene in story['scenes']:
-        prompt=f'{anchor}；{scene["visual_prompt"]}；场景{scene["scene_id"]}；画面干净，适合7到12岁儿童阅读'; paths.append(generate_image(prompt,output_dir/f'scene_{scene["scene_id"]:02d}.png',stable_seed(anchor+str(scene['scene_id'])),1024,768))
+        prompt=f'{anchor}；{scene["visual_prompt"]}；场景{scene["scene_id"]}；画面干净，适合7到12岁儿童阅读'; paths.append(generate_image(prompt,output_dir/f'scene_{scene["scene_id"]:02d}.png',243002026 + scene['scene_id'],1024,768))
     return paths

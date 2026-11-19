@@ -14,10 +14,10 @@ def load_env(path: Path | None = None) -> dict[str, str]:
             if line and not line.startswith("#") and "=" in line:
                 key, value = line.split("=", 1)
                 values[key.strip()] = value.strip().strip('"').strip("'")
-    values.update({k: v for k, v in os.environ.items() if k in {"OPENAI_BASE_URL", "OPENAI_API_KEY", "OPENAI_MODEL", "POLLINATIONS_BASE_URL"}})
+    values.update({k: v for k, v in os.environ.items() if k in {"OPENAI_BASE_URL", "OPENAI_API_KEY", "OPENAI_MODEL", "POLLINATIONS_BASE_URL", "USE_REMOTE_IMAGES"}})
     return values
 def stable_seed(text: str) -> int:
-    return int(hashlib.sha256(text.encode("utf-8")).hexdigest()[:8], 16)
+    return int(hashlib.sha256(text.encode("utf-8")).hexdigest()[:8], 16) % 2147483647 or 1
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding="utf-8")
