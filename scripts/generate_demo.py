@@ -5,7 +5,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from src.base import ROOT, write_json
 from src.story_generator import StoryRequest, generate_story
 from src.image_generator import generate_story_images
-from src.tts import generate_story_audio
+from src.tts import generate_story_audio, generate_background_music
 from src.video_maker import make_story_video
 from src.agent import run_agent, save_agent_run
 from reportlab.lib.pagesizes import A4
@@ -23,9 +23,9 @@ def build_pdf(story, images, target):
 def main():
     ROOT.joinpath('outputs/images').mkdir(parents=True,exist_ok=True); ROOT.joinpath('outputs/audio').mkdir(parents=True,exist_ok=True)
     story=generate_story(StoryRequest()); write_json(ROOT/'outputs/story_structured.json',story)
-    images=generate_story_images(story); audio=generate_story_audio(story)
+    images=generate_story_images(story); audio=generate_story_audio(story); music=generate_background_music(ROOT/'outputs/audio/background_music.mp3', 72)
     build_pdf(story,images,ROOT/'outputs/storybook.pdf')
-    video,subtitle=make_story_video(story,images,audio.get('narrator'))
+    video,subtitle=make_story_video(story,images,audio.get('narrator'),background_audio=music)
     context=run_agent('月光森林里，一封星光信件寻找勇气', ['把主角设定为女孩', '保留森林场景'])
     save_agent_run(context,'case_01')
     context2=run_agent('海边灯塔的合作冒险', ['把场景改成海边'])

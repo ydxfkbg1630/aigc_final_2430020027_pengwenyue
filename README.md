@@ -25,7 +25,7 @@ py -3.12 -m http.server 8000 --directory web
 
 - 文本：默认离线模板；配置 `OPENAI_BASE_URL` 与 `OPENAI_API_KEY` 后可接入任意 OpenAI 兼容免费额度接口。
 - 生图：`https://image.pollinations.ai` 免费接口，固定 seed 和角色外貌描述实现一致性方案一。
-- 语音：Microsoft Edge TTS 免费服务，通过 `edge-tts` 生成中文普通话音频。
+- 语音：优先使用 Microsoft Edge TTS 免费服务，连接受限时切换 Windows 中文系统音色；背景音乐由本地免费算法生成。
 - 视频：本地 `imageio-ffmpeg` 合成，无需付费视频生成接口。
 
 所有接口都设置缓存、重试和离线降级，示例运行不依赖密钥。

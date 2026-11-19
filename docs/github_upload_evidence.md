@@ -1,17 +1,15 @@
-GitHub仓库已创建并推送： https://github.com/ydxfkbg1630/aigc_final_2430020027_pengwenyue 。仓库名遵循 `aigc_final_2430020027_pengwenyue`，本地 Git 已保留课程标签和提交记录。
+# GitHub 上传证据
 
-# Git仓库上传证据
+公开仓库：<https://github.com/ydxfkbg1630/aigc_final_2430020027_pengwenyue>
 
-本地仓库已用 Git 初始化，目录名遵循 `aigc_final_2430020027_pengwenyue` 的命名规则映射。教师要求的 GitHub/Gitee 公开地址需要在拥有对应平台账号后执行远程推送；本包保留 `.git` 目录、提交结构建议和本地证据板，上传后把真实地址补入本文件并保存平台截图。
+仓库名：`aigc_final_2430020027_pengwenyue`。当前仓库包含完整源码、数据、媒体、报告、验证脚本与提交包，默认分支为 `master`，课程标签为 `v1-proposal`、`v2-midterm`、`v3-final`。仓库主页已展示作者“彭文玥”、学号“2430020027”、目录结构与 README，适合提交时提供公开地址。
 
-建议命令：
+本地验证命令：
 
 ```powershell
-git add .
-git commit -m "feat: complete multimodal AIGC story workshop"
-git tag v1-proposal
-git tag v2-midterm
-git tag v3-final
-git remote add origin <你的GitHub仓库地址>
-git push -u origin main --tags
+py -3.12 -m unittest discover -s tests -v
+py -3.12 scripts\run_evaluation.py
+py -3.12 scripts\verify_submission.py
+git log --oneline --decorate -3
+git tag
 ```

@@ -8,3 +8,5 @@
 | 星光鲸 | zh-CN-YunyangNeural | +0% | +0Hz | 沉稳、感动 | `outputs/audio/whale.mp3` |
 
 音频网页：`web/read_along.html`。网页按照场景时间段高亮文本，语音参数由 `src/tts.py` 统一管理。
+
+Edge TTS 连接受限时，脚本自动切换到 Windows 中文系统音色生成 MP3；两条路径都保持角色、语速和情感字段一致。

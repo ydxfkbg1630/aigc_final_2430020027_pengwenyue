@@ -1,5 +1,5 @@
 from __future__ import annotations
-import asyncio, subprocess, wave
+import asyncio, math, struct, subprocess, wave
 from pathlib import Path
 from .base import ROOT
 VOICE_MAP = {"narrator": "zh-CN-XiaoxiaoNeural", "protagonist": "zh-CN-XiaoyiNeural", "rabbit": "zh-CN-YunxiNeural", "whale": "zh-CN-YunyangNeural"}
@@ -20,6 +20,26 @@ async def _synthesize(text: str, voice: str, output: Path, role: str) -> Path:
         return _fallback_audio(output, text, role)
 def synthesize(text: str, output: Path, role: str = 'narrator') -> Path:
     output.parent.mkdir(parents=True, exist_ok=True); return asyncio.run(_synthesize(text, VOICE_MAP.get(role, VOICE_MAP['narrator']), output, role))
+def generate_background_music(path: Path, seconds: int = 72) -> Path:
+    import imageio_ffmpeg
+    path.parent.mkdir(parents=True, exist_ok=True)
+    wav_path = path.with_suffix('.wav')
+    sample_rate = 16000
+    chords = [(261.63, 329.63, 392.00), (293.66, 349.23, 440.00), (220.00, 277.18, 329.63), (246.94, 311.13, 369.99)]
+    with wave.open(str(wav_path), 'wb') as stream:
+        stream.setnchannels(1); stream.setsampwidth(2); stream.setframerate(sample_rate)
+        for index in range(sample_rate * seconds):
+            time = index / sample_rate
+            chord = chords[int(time // 8) % len(chords)]
+            sample = sum(math.sin(2 * math.pi * frequency * time) for frequency in chord) / len(chord)
+            envelope = min(1.0, time / 2.0, (seconds - time) / 2.0)
+            value = int(32767 * 0.08 * envelope * sample)
+            stream.writeframes(struct.pack('<h', value))
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
+    subprocess.run([ffmpeg, '-y', '-i', str(wav_path), '-codec:a', 'libmp3lame', '-q:a', '5', str(path)], check=True, capture_output=True, encoding='utf-8', errors='ignore')
+    wav_path.unlink(missing_ok=True)
+    return path
+
 def generate_story_audio(story: dict, output_dir: Path | None = None) -> dict[str, Path]:
     output_dir=output_dir or ROOT/'outputs/audio'; output_dir.mkdir(parents=True,exist_ok=True)
     base=' '.join(scene['text'] for scene in story['scenes'])

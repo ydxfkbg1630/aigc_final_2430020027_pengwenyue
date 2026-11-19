@@ -16,7 +16,7 @@ def write_srt(story: dict, path: Path, seconds_per_scene: int = 24) -> Path:
         start=(index-1)*seconds_per_scene; end=index*seconds_per_scene; lines.extend([str(index),f'{stamp(start)} --> {stamp(end)}',scene['text'],''])
     path.parent.mkdir(parents=True,exist_ok=True); path.write_text('\n'.join(lines),encoding='utf-8'); return path
 
-def make_slideshow(images: list[Path], audio: Path | None, output: Path, subtitle: Path | None = None, seconds_per_image: int = 24) -> Path:
+def make_slideshow(images: list[Path], audio: Path | None, output: Path, subtitle: Path | None = None, seconds_per_image: int = 24, background_audio: Path | None = None) -> Path:
     import imageio_ffmpeg
     ffmpeg=imageio_ffmpeg.get_ffmpeg_exe(); output.parent.mkdir(parents=True,exist_ok=True)
     concat=output.with_suffix('.concat.txt'); concat.write_text('\n'.join([f"file '{p.resolve().as_posix()}'\nduration {seconds_per_image}" for p in images]+[f"file '{images[-1].resolve().as_posix()}'"]),encoding='utf-8')
@@ -33,5 +33,5 @@ def make_slideshow(images: list[Path], audio: Path | None, output: Path, subtitl
         subprocess.run(fallback,check=True,capture_output=True,encoding='utf-8',errors='ignore')
     return output
 
-def make_story_video(story: dict, images: list[Path], audio: Path | None = None, output_dir: Path | None = None) -> tuple[Path, Path]:
-    output_dir=output_dir or ROOT/'outputs/video'; output_dir.mkdir(parents=True,exist_ok=True); subtitle=write_srt(story,output_dir/'story.srt'); return make_slideshow(images,audio,output_dir/'story_video.mp4',subtitle),subtitle
+def make_story_video(story: dict, images: list[Path], audio: Path | None = None, output_dir: Path | None = None, background_audio: Path | None = None) -> tuple[Path, Path]:
+    output_dir=output_dir or ROOT/'outputs/video'; output_dir.mkdir(parents=True,exist_ok=True); subtitle=write_srt(story,output_dir/'story.srt'); return make_slideshow(images,audio,output_dir/'story_video.mp4',subtitle,background_audio=background_audio),subtitle
